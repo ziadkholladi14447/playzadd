@@ -51,9 +51,9 @@ async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
      
     if text == "المنتجات🛒":
         keyboard = [
-            [InlineKeyboardButton("Box : ps4 + 2 controller + 3 dvd games", callback_data="box pro")],
-            [InlineKeyboardButton("Box : 2controller + 3 dvd games", callback_data="box minaul")],
-            [InlineKeyboardButton("Box : dvd games more", callback_data="box game")]
+            [InlineKeyboardButton("Box pro: ps4 + 2 controller + 3 dvd games", callback_data="box pro")],
+            [InlineKeyboardButton("Box minaul: 2controller + 3 dvd games", callback_data="box minaul")],
+            [InlineKeyboardButton("Box games: dvd games more", callback_data="box game")]
         ]
         
         reply_markup = InlineKeyboardMarkup(keyboard)
