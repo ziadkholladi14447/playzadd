@@ -14,6 +14,19 @@ products = {
     "dvd games more":"450 الف"
 }
 
+ALGERIA_STATES = [
+    "أدرار", "الشلف", "الأغواط", "أم البواقي", "باتنة",
+    "بجاية", "بسكرة", "بشار", "البليدة", "البويرة",
+    "تمنراست", "تبسة", "تلمسان", "تيارت", "تيزي وزو",
+    "الجزائر", "الجلفة", "جيجل", "سطيف", "سعيدة",
+    "سكيكدة", "سيدي بلعباس", "عنابة", "قالمة", "قسنطينة",
+    "المدية", "مستغانم", "المسيلة", "معسكر", "ورقلة",
+    "وهران", "البيض", "إليزي", "برج بوعريريج", "بومرداس",
+    "الطارف", "تندوف", "تيسمسيلت", "الوادي", "خنشلة",
+    "سوق أهراس", "تيبازة", "ميلة", "عين الدفلى", "النعامة",
+    "عين تموشنت", "غرداية", "غليزان"
+]
+
 #امر البدء start
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -78,11 +91,24 @@ async def prices(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     if query.data == "box pro":
-        await query.message.reply_text("5 ملاين 💵")
+        with open("box pro.png","rb") as photo:
+            await query.message.reply_photo(
+                photo=photo,
+                caption="Box pro : ps4 + 2 controller + 3 games 🎮\n""السعر: 5 ملاين 💵"
+            )
     if query.data == "box minaul":
-        await query.message.reply_text("3 ملاين 💵")
+        with open("box minaul.png","rb") as photo:
+            await query.message.reply_photo(
+                photo=photo,
+                caption="Box minaul : ps4 + 2 controller 🎮\n""السعر: 3 ملاين 💵"
+            )
     if query.data == "box game":
-        await query.message.reply_text("450 الف 💵")
+        with open("box games.png","rb") as photo:
+            await query.message.reply_photo(
+                photo=photo,
+                caption=" Box games : games more 🎮\n""السعر: 450 الف 💵"
+                        
+            )
 
 
  
@@ -95,17 +121,70 @@ async def start_order(update: Update,context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("اسمك الكامل :",reply_markup=ReplyKeyboardRemove())
     return NAME
 
-async def get_name(update: Update,context: ContextTypes.DEFAULT_TYPE):
-    context.user_data["name"] = update.message.text
-    await update.message.reply_text("رقم هاتفك :")
+async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    name = update.message.text.strip()
+
+    # إزالة المسافات من الحساب
+    clean_name = name.replace(" ", "")
+
+    if not clean_name.isalpha():
+        await update.message.reply_text(
+            "❌ الاسم يجب أن يحتوي على حروف فقط"
+        )
+        return NAME
+
+    if len(clean_name) < 5 or len(clean_name) > 8:
+        await update.message.reply_text(
+            "❌ الاسم يجب أن يكون بين 5 و 8 أحرف"
+        )
+        return NAME
+
+    context.user_data["name"] = name
+
+    await update.message.reply_text("📱 رقم هاتفك:")
     return PHONE
-async def get_phone(update: Update,context: ContextTypes.DEFAULT_TYPE):
-    context.user_data["phone"] = update.message.text
-    await update.message.reply_text("الولاية")
+
+async def get_phone(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    phone = update.message.text.strip()
+
+    if not phone.isdigit():
+        await update.message.reply_text(
+            "❌ رقم الهاتف يجب أن يحتوي على أرقام فقط"
+        )
+        return PHONE
+
+    if len(phone) != 10:
+        await update.message.reply_text(
+            "❌ رقم الهاتف يجب أن يكون 10 أرقام"
+        )
+        return PHONE
+
+    if not (
+        phone.startswith("05")
+        or phone.startswith("06")
+        or phone.startswith("07")
+    ):
+        await update.message.reply_text(
+            "❌ رقم الهاتف يجب أن يبدأ بـ 05 أو 06 أو 07"
+        )
+        return PHONE
+
+    context.user_data["phone"] = phone
+
+    await update.message.reply_text("📍 الولاية:")
     return STATE
-async def get_state(update: Update,context: ContextTypes.DEFAULT_TYPE):
-    context.user_data["state"] = update.message.text
-    await update.message.reply_text("العنوان :")
+async def get_state(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    state = update.message.text.strip()
+
+    if state not in ALGERIA_STATES:
+        await update.message.reply_text(
+            "❌ الولاية غير صحيحة، الرجاء إدخال ولاية جزائرية حقيقية"
+        )
+        return STATE
+
+    context.user_data["state"] = state
+
+    await update.message.reply_text("🏠 العنوان:")
     return ADDRESS
 
 async def get_address(update: Update,context: ContextTypes.DEFAULT_TYPE):
