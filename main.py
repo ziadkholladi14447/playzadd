@@ -3,7 +3,7 @@ from telegram.ext import CommandHandler, Application, MessageHandler, CallbackQu
 import os
 #token bot
 
-TOKEN ="8746204834:AAGLiub-A5BioeFEPk7fyal1T5_DcIW1cN8"
+TOKEN = os.getenv("TOKEN")
 
 ADMIN_ID = 7462244340
  
