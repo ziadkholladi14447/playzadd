@@ -51,9 +51,9 @@ async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
      
     if text == "المنتجات🛒":
         keyboard = [
-            [InlineKeyboardButton("Box pro: ps4 + 2 controller + 3 dvd games", callback_data="box pro")],
-            [InlineKeyboardButton("Box minaul: 2controller + 3 dvd games", callback_data="box minaul")],
-            [InlineKeyboardButton("Box games: dvd games more", callback_data="box game")]
+            [InlineKeyboardButton("Box : ps4 + 2 controller + 3 dvd games", callback_data="box pro")],
+            [InlineKeyboardButton("Box : 2controller + 3 dvd games", callback_data="box minaul")],
+            [InlineKeyboardButton("Box : dvd games more", callback_data="box game")]
         ]
         
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -124,8 +124,8 @@ async def start_order(update: Update,context: ContextTypes.DEFAULT_TYPE):
 async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
     name = update.message.text.strip()
 
-    
-    
+    # إزالة المسافات من الحساب
+    clean_name = name.replace(" ", " ")
 
     if not clean_name.isalpha():
         await update.message.reply_text(
@@ -190,9 +190,9 @@ async def get_state(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def get_address(update: Update,context: ContextTypes.DEFAULT_TYPE):
     context.user_data["address"] = update.message.text
     keyboard = [
-        [InlineKeyboardButton("Box pro: ps4 + 2 controller + 3 dvd games", callback_data="box pro")],
-        [InlineKeyboardButton("Box minaul: 2controller + 3 dvd games", callback_data="box minaul")],
-        [InlineKeyboardButton("Box games: dvd games more", callback_data="box game")]
+        [InlineKeyboardButton("Box : ps4 + 2 controller + 3 dvd games", callback_data="box pro")],
+        [InlineKeyboardButton("Box : 2controller + 3 dvd games", callback_data="box minaul")],
+        [InlineKeyboardButton("Box : dvd games more", callback_data="box game")]
     ]
     msg2 = "اختر المنتج 😊"
     await update.message.reply_text(
