@@ -149,7 +149,7 @@ async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return NAME
 
-    if len(clean_name) < 5 or len(clean_name) > 8:
+    if len(clean_name) < 5 or len(clean_name) > 12:
         await update.message.reply_text(
             "❌ الاسم يجب أن يكون بين 5 و 8 أحرف"
         )
