@@ -124,7 +124,7 @@ async def start_order(update: Update,context: ContextTypes.DEFAULT_TYPE):
 async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
     name = update.message.text.strip()
 
-    clean_name = name.replace("","")
+    
     
 
     if not clean_name.isalpha():
