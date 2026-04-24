@@ -124,8 +124,24 @@ async def start_order(update: Update,context: ContextTypes.DEFAULT_TYPE):
 async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
     name = update.message.text.strip()
 
-    # إزالة المسافات من الحساب
-    clean_name = name.replace(" ", " ")
+    # التحقق من عدد المسافات (مسموح مسافة واحدة فقط)
+    if name.count(" ") > 1:
+        await update.message.reply_text(
+            "❌ الاسم يجب أن يحتوي على مسافة واحدة فقط"
+        )
+        return NAME
+
+    # تقسيم الاسم إلى جزأين كحد أقصى
+    parts = name.split()
+
+    if len(parts) > 2:
+        await update.message.reply_text(
+            "❌ اكتب الاسم الكامل: اسم + لقب فقط"
+        )
+        return NAME
+
+    # إزالة المسافة لفحص الطول والحروف
+    clean_name = name.replace(" ", "")
 
     if not clean_name.isalpha():
         await update.message.reply_text(
@@ -143,7 +159,6 @@ async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text("📱 رقم هاتفك:")
     return PHONE
-
 async def get_phone(update: Update, context: ContextTypes.DEFAULT_TYPE):
     phone = update.message.text.strip()
 
